@@ -8,7 +8,6 @@ IFS=$'\n\t'
 # Replace it with your. check it by the following command
 # ls /dev/v4l/by-id/
 FACECAM="/dev/v4l/by-id/usb-Elgato_Elgato_Facecam_FW21K1A16088-video-index0"
-#PLACEHOLDER="/home/fu2re/facecam/standby-r.jpg"
 
 # Placeholder video. replace it with yours.
 PLACEHOLDER="/home/fu2re/facecam/vhs.webm"
