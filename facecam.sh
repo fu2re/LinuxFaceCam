@@ -1,4 +1,3 @@
-  GNU nano 5.4                                                                                          facecam.sh *                                                                                                 
 #!/bin/bash
 
 # The following lines re-establish the USB connection to the camera
@@ -9,9 +8,10 @@ IFS=$'\n\t'
 # Replace it with your. check it by the following command
 # ls /dev/v4l/by-id/
 FACECAM="/dev/v4l/by-id/usb-Elgato_Elgato_Facecam_FW21K1A16088-video-index0"
+#PLACEHOLDER="/home/fu2re/facecam/standby-r.jpg"
 
 # Placeholder video. replace it with yours.
-PLACEHOLDER="/home/fu2re/Videos/untitled.webm"
+PLACEHOLDER="/home/fu2re/facecam/vhs.webm"
 
 # Get these values from `lsusb`
 VENDOR="0fd9" # Elgato Vendor
@@ -22,6 +22,7 @@ DEV=11
 POLL_INTERVAL=1
 TIMEOUT=5
 INUSE=1
+PATTERN="(ffmpeg.*-f v4l2)"
 
 if ! [[ $(lsusb | grep $VENDOR:$PRODUCT) ]]; then
   exit 0
@@ -38,6 +39,14 @@ if ! [[ $(test -f $FACECAM) ]]; then
   done
 fi
 
+
+function stop () {
+  if [[ $(ps aux | grep -E $PATTERN | grep -v grep) ]]; then
+    ps aux | grep -E $PATTERN | grep -v grep | awk {'print $2'} | xargs kill
+  fi
+}
+
+
 function unload_module () {
   while (( 1 == 1 ))
   do
@@ -52,12 +61,7 @@ function unload_module () {
 
 
 function reload_module () {
-  if [[ $(ps aux | grep -i "ffmpeg -f v4l2" | grep -v grep) ]]; then
-    ps aux | grep -i "ffmpeg -f v4l2" | grep -v grep | awk {'print $2'} | xargs kill
-  fi
-  if [[ $(ps aux | grep -i "ffmpeg -stream_loop -1 -re -i" | grep -v grep) ]]; then
-    ps aux | grep -i "ffmpeg -stream_loop -1 -re -i" | grep -v grep | awk {'print $2'} | xargs kill
-  fi
+  stop
   unload_module
   sudo modprobe v4l2loopback video_nr=$DEV card_label=$LABEL exclusive_caps=1
   v4l2-ctl -d $FACECAM
