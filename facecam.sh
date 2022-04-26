@@ -11,7 +11,7 @@ FACECAM="/dev/v4l/by-id/usb-Elgato_Elgato_Facecam_FW21K1A16088-video-index0"
 
 # Placeholder video. replace it with yours.
 # For some reason image wont not work
-#PLACEHOLDER="/home/fu2re/Videos/untitled.webm"
+PLACEHOLDER="/home/fu2re/facecam/vhs.webm"
 
 # Get these values from `lsusb`
 VENDOR="0fd9" # Elgato Vendor
