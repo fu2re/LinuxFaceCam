@@ -4,11 +4,15 @@ IFS=$'\n\t'
 
 # Placeholder video. replace it with yours.
 # For some reason image wont not work
+#PLACEHOLDER="./vhs.webm"
 PLACEHOLDER="./placeholder.mp4"
 
 # Get these values from `lsusb`
 VENDOR="0fd9" # Elgato Vendor
 PRODUCT="0078" # Facecam ID
+
+# CROP
+CROP="1280:720"
 
 # Variables
 LABEL="Elagto FaceCam"
@@ -85,7 +89,7 @@ do
     if (( INUSE == 0 )); then
       echo "Stream is currently ON"
       reload_module
-      ffmpeg -f v4l2 -input_format uyvy422 -framerate 60  -i $FACECAM -filter:v "crop=1280:720" -pix_fmt yuyv422 -f v4l2 /dev/video$DEV -loglevel quiet &
+      ffmpeg -f v4l2 -input_format uyvy422 -framerate 60  -i $FACECAM -filter:v "crop="$CROP -pix_fmt yuyv422 -f v4l2 /dev/video$DEV  &
       INUSE=1
     fi
   elif (( INUSE == 1 )); then
@@ -93,7 +97,7 @@ do
      if ! [[ $(lsof /dev/video$DEV | grep /dev/video$DEV | grep -v ffmpeg) ]]; then
        echo "Stream is currently OFF"
        reload_module
-       ffmpeg -stream_loop -1 -re -i $PLACEHOLDER -map 0:v -f v4l2 -input_format uyvy422 -framerate 60 -video_size 1920x1080 -pix_fmt yuyv422 /dev/video$DEV -loglevel quiet &
+       ffmpeg -stream_loop -1 -re -i $PLACEHOLDER -map 0:v -f v4l2 -input_format uyvy422 -framerate 60 -video_size 1920x1080 -pix_fmt yuyv422 /dev/video$DEV&
        INUSE=0
      fi
   fi
