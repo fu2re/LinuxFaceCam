@@ -4,7 +4,7 @@ IFS=$'\n\t'
 
 # Placeholder video. replace it with yours.
 # For some reason image wont not work
-PLACEHOLDER="/home/fu2re/facecam/vhs.webm"
+PLACEHOLDER="./vhs.webm"
 
 # Get these values from `lsusb`
 VENDOR="0fd9" # Elgato Vendor
