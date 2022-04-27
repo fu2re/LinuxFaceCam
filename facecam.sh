@@ -4,7 +4,6 @@ IFS=$'\n\t'
 
 # Placeholder video. replace it with yours.
 # For some reason image wont not work
-#PLACEHOLDER="./vhs.webm"
 PLACEHOLDER="./placeholder.mp4"
 
 # Get these values from `lsusb`
