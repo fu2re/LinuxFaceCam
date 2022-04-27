@@ -1,4 +1,4 @@
-# LinuxFaceCam
+# Elgato FaceCam for Linux
 Elgato FaceCam on-demand driver for linux
 Not a driver actually. It is a daemon which monitors activity on virtual camera. And switch camera ON and OFF accordingly
 
